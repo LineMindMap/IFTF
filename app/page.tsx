@@ -1,9 +1,9 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
-import { navigation,focusAreas,impact } from '../data/content';
+import { focusAreas,impact } from '../data/content';
 
 function Arrow(){return <span aria-hidden="true">↗</span>}
 function Globe(){return <svg viewBox="0 0 200 200" fill="none" aria-hidden="true"><circle cx="100" cy="100" r="90"/><ellipse cx="100" cy="100" rx="45" ry="90"/><ellipse cx="100" cy="100" rx="75" ry="90"/><ellipse cx="100" cy="100" rx="90" ry="35"/><path d="M10 100h180M25 52h150M25 148h150M100 10v180"/></svg>}
@@ -15,39 +15,8 @@ function Reveal({ children, className = '' }: { children: React.ReactNode; class
 }
 
 export default function Home() {
-  const [menu, setMenu] = useState(false);
   const [region, setRegion] = useState('All regions');
-  const menuButton = useRef<HTMLButtonElement>(null);
-
-  return <>
-    <a className="skip" href="#main">Skip to content</a>
-    <header className={menu ? 'menu-expanded' : undefined}
-      onBlur={event => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setMenu(false);
-      }}
-      onKeyDown={event => {
-        if (event.key === 'Escape' && menu) {
-          setMenu(false);
-          menuButton.current?.focus();
-        }
-      }}>
-      <div className="utility">
-        <span>Bridging Today, Empowering Tomorrow.</span>
-        <div><Link href="/verify/">Verify a letter</Link><Link href="/contact/">Contact</Link><Link href="/login/">Login <Arrow/></Link></div>
-      </div>
-      <div className="mainnav">
-        <Link href="/" aria-label="IFTF home" className="brand"><Image src="/iftf-logo.png" width={820} height={409} alt="International Future Trust Foundation" priority/></Link>
-        <button ref={menuButton} className="menutoggle" onClick={() => setMenu(!menu)}
-          aria-expanded={menu} aria-controls="main-navigation" aria-label={menu ? 'Close navigation' : 'Open navigation'}>
-          {menu ? 'Close' : 'Menu'} <span aria-hidden="true">{menu ? '×' : '☰'}</span>
-        </button>
-        <nav id="main-navigation" aria-label="Main navigation" className={menu ? 'open' : undefined}>
-          {navigation.map(([name, slug]) => <Link key={slug} href={'/' + slug + '/'} onClick={() => setMenu(false)}>{name}</Link>)}
-          <Link className="mobile-partner" href="/collaborate/" onClick={() => setMenu(false)}>Partner with us <Arrow/></Link>
-        </nav>
-        <Link className="button navcta" href="/collaborate/">Partner with us <Arrow/></Link>
-      </div>
-    </header>
+  return (
 <main id="main" tabIndex={-1}>
 <section className="hero wrap"><div className="hero-copy"><p className="eyebrow"><span/> PEOPLE. PURPOSE. POSSIBILITY.</p><h1>A shared future.<br/>A world of<br/><em>possibility.</em></h1><p className="hero-desc">Bridging Today, Empowering Tomorrow.</p><p className="intro">Progress begins with people. Discover a vision of stronger communities, meaningful partnerships and opportunity that reaches further.</p><div className="actions"><Link className="button" href="/programs/">Explore our vision <Arrow/></Link><Link className="text-link" href="/about/">Meet IFTF <Arrow/></Link></div><div className="hero-bottom"><span className="line"/><span>LOCAL PERSPECTIVES.<br/>GLOBAL POSSIBILITIES.</span></div></div><div className="hero-art"><div className="photo-frame"><Image src="/community.jpg" alt="Illustrative photograph of a community gathering" fill sizes="(max-width: 760px) 100vw, 52vw" priority/><div className="photo-shade"/><span className="image-label">THE FUTURE STARTS WITH PEOPLE</span><span className="photo-credit">Illustrative photography · not an IFTF project</span></div><div className="globe-stamp"><Globe/></div><div className="floating-note"><span className="red-rule"/><p>Different places.<br/><em>Shared possibilities.</em></p><Arrow/></div><span className="vertical-note">INTERNATIONAL FUTURE TRUST FOUNDATION</span></div></section>
 <div className="preview-note wrap"><span className="status-dot"/> FOUNDATION WEBSITE PREVIEW <span>Program descriptions and imagery are illustrative. Organizational information is awaiting confirmation.</span></div>
@@ -65,4 +34,6 @@ export default function Home() {
 <section className="section wrap publications"><Reveal className="section-top"><div><p className="eyebrow">05 / OPEN & ACCOUNTABLE</p><h2>A clear view of<br/><em>the road ahead.</em></h2></div><p className="section-aside">Our plans, reports and policies will provide a transparent record of priorities, progress and learning.</p></Reveal><div className="publication-grid">{[['Our shared direction','Strategy & priorities'],['Progress, documented','Annual reports'],['Trust in practice','Governance & policies']].map(([title,sub],i)=><Link className={'publication book-'+i} key={title} href={i===2?'/transparency/':'/publications/'}><span>IFTF <Arrow/></span><h3>{title}</h3><div className="book-globe"><Globe/></div><p>{sub}<small>Publication forthcoming</small></p></Link>)}</div></section>
 <section className="collaborate wrap"><div><p className="eyebrow">BETTER, TOGETHER</p><h2>Let’s turn shared purpose<br/>into <em>possibility.</em></h2></div><Link className="button" href="/collaborate/">Propose a collaboration <Arrow/></Link></section>
 <section className="involved wrap section"><p className="eyebrow">06 / FIND YOUR WAY TO CONTRIBUTE</p><div className="involved-links">{[['Bring your time','Volunteer','volunteer'],['Bring your expertise','Careers','careers'],['Support the vision','Give','donate']].map(([label,title,slug])=><Link href={'/'+slug+'/'} key={slug}><span>{label}</span><h3>{title} <Arrow/></h3></Link>)}</div></section>
-</main><footer><div className="wrap footer-top"><div><Image src="/iftf-logo.png" width={290} height={145} alt="International Future Trust Foundation"/><p>Bridging Today,<br/>Empowering Tomorrow.</p></div><div><h3>Discover</h3><Link href="/about/">About IFTF</Link><Link href="/programs/">Our focus</Link><Link href="/where-we-work/">Global outlook</Link><Link href="/news/">News & stories</Link></div><div><h3>Connect</h3><Link href="/collaborate/">Become a partner</Link><Link href="/volunteer/">Volunteer</Link><Link href="/contact/">Contact</Link><Link href="/verify/">Verify a letter</Link></div><div><h3>Built on trust</h3><Link href="/transparency/">Transparency</Link><Link href="/publications/">Reports & publications</Link><p className="footer-note">Official contact details and registered address will be added after verification.</p></div></div><div className="wrap footer-bottom"><span>© {new Date().getFullYear()} International Future Trust Foundation</span><div><Link href="/privacy/">Privacy</Link><Link href="/terms/">Terms</Link><Link href="/accessibility/">Accessibility</Link><a href="#main">Back to top ↑</a></div></div></footer></>}
+</main>
+  );
+}
