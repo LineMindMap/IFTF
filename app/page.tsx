@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -7,14 +7,56 @@ import { navigation,focusAreas,impact } from '../data/content';
 
 function Arrow(){return <span aria-hidden="true">↗</span>}
 function Globe(){return <svg viewBox="0 0 200 200" fill="none" aria-hidden="true"><circle cx="100" cy="100" r="90"/><ellipse cx="100" cy="100" rx="45" ry="90"/><ellipse cx="100" cy="100" rx="75" ry="90"/><ellipse cx="100" cy="100" rx="90" ry="35"/><path d="M10 100h180M25 52h150M25 148h150M100 10v180"/></svg>}
-function Reveal({children,className=''}:{children:React.ReactNode,className?:string}){const reduced=useReducedMotion();return <motion.div className={className} initial={reduced?false:{opacity:0,y:18}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:0.12}} transition={{duration:.5}}>{children}</motion.div>}
+function Reveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const reduced = useReducedMotion();
+  return <motion.div className={className} initial={false}
+    whileInView={reduced ? undefined : { y: [7, 0] }}
+    viewport={{ once: true, amount: 0.12 }} transition={{ duration: 0.35 }}>{children}</motion.div>;
+}
 
-export default function Home(){const [menu,setMenu]=useState(false);const [region,setRegion]=useState('All regions');return <>
-<a className="skip" href="#main">Skip to content</a>
-<header><div className="utility"><span>Bridging Today, Empowering Tomorrow.</span><div><Link href="/verify/">Verify a letter</Link><Link href="/contact/">Contact</Link><Link href="/login/">Login <Arrow/></Link></div></div><div className="mainnav"><Link href="/" aria-label="IFTF home" className="brand"><Image src="/iftf-logo.png" width={820} height={409} alt="International Future Trust Foundation" priority/></Link><nav aria-label="Main navigation" className={menu?'open':''}>{navigation.map(([name,slug])=><Link key={slug} href={'/'+slug+'/'} onClick={()=>setMenu(false)}>{name}</Link>)}</nav><Link className="button navcta" href="/collaborate/">Partner with us <Arrow/></Link><button className="menutoggle" onClick={()=>setMenu(!menu)} aria-expanded={menu} aria-label={menu?'Close navigation':'Open navigation'}>{menu?'Close':'Menu'} <span aria-hidden="true">{menu?'×':'☰'}</span></button></div></header>
-<main id="main">
+export default function Home() {
+  const [menu, setMenu] = useState(false);
+  const [region, setRegion] = useState('All regions');
+  const menuButton = useRef<HTMLButtonElement>(null);
+
+  return <>
+    <a className="skip" href="#main">Skip to content</a>
+    <header className={menu ? 'menu-expanded' : undefined}
+      onBlur={event => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setMenu(false);
+      }}
+      onKeyDown={event => {
+        if (event.key === 'Escape' && menu) {
+          setMenu(false);
+          menuButton.current?.focus();
+        }
+      }}>
+      <div className="utility">
+        <span>Bridging Today, Empowering Tomorrow.</span>
+        <div><Link href="/verify/">Verify a letter</Link><Link href="/contact/">Contact</Link><Link href="/login/">Login <Arrow/></Link></div>
+      </div>
+      <div className="mainnav">
+        <Link href="/" aria-label="IFTF home" className="brand"><Image src="/iftf-logo.png" width={820} height={409} alt="International Future Trust Foundation" priority/></Link>
+        <button ref={menuButton} className="menutoggle" onClick={() => setMenu(!menu)}
+          aria-expanded={menu} aria-controls="main-navigation" aria-label={menu ? 'Close navigation' : 'Open navigation'}>
+          {menu ? 'Close' : 'Menu'} <span aria-hidden="true">{menu ? '×' : '☰'}</span>
+        </button>
+        <nav id="main-navigation" aria-label="Main navigation" className={menu ? 'open' : undefined}>
+          {navigation.map(([name, slug]) => <Link key={slug} href={'/' + slug + '/'} onClick={() => setMenu(false)}>{name}</Link>)}
+          <Link className="mobile-partner" href="/collaborate/" onClick={() => setMenu(false)}>Partner with us <Arrow/></Link>
+        </nav>
+        <Link className="button navcta" href="/collaborate/">Partner with us <Arrow/></Link>
+      </div>
+    </header>
+<main id="main" tabIndex={-1}>
 <section className="hero wrap"><div className="hero-copy"><p className="eyebrow"><span/> PEOPLE. PURPOSE. POSSIBILITY.</p><h1>A shared future.<br/>A world of<br/><em>possibility.</em></h1><p className="hero-desc">Bridging Today, Empowering Tomorrow.</p><p className="intro">Progress begins with people. Discover a vision of stronger communities, meaningful partnerships and opportunity that reaches further.</p><div className="actions"><Link className="button" href="/programs/">Explore our vision <Arrow/></Link><Link className="text-link" href="/about/">Meet IFTF <Arrow/></Link></div><div className="hero-bottom"><span className="line"/><span>LOCAL PERSPECTIVES.<br/>GLOBAL POSSIBILITIES.</span></div></div><div className="hero-art"><div className="photo-frame"><Image src="/community.jpg" alt="Illustrative photograph of a community gathering" fill sizes="(max-width: 760px) 100vw, 52vw" priority/><div className="photo-shade"/><span className="image-label">THE FUTURE STARTS WITH PEOPLE</span><span className="photo-credit">Illustrative photography · not an IFTF project</span></div><div className="globe-stamp"><Globe/></div><div className="floating-note"><span className="red-rule"/><p>Different places.<br/><em>Shared possibilities.</em></p><Arrow/></div><span className="vertical-note">INTERNATIONAL FUTURE TRUST FOUNDATION</span></div></section>
 <div className="preview-note wrap"><span className="status-dot"/> FOUNDATION WEBSITE PREVIEW <span>Program descriptions and imagery are illustrative. Organizational information is awaiting confirmation.</span></div>
+<nav className="quick-links wrap" aria-label="Quick links">
+  <Link href="/programs/">Explore programs <Arrow/></Link>
+  <Link href="/collaborate/">Propose a collaboration <Arrow/></Link>
+  <Link href="/volunteer/">Volunteer <Arrow/></Link>
+  <Link href="/verify/">Verify a letter <Arrow/></Link>
+</nav>
 <section className="mission wrap section" id="about"><Reveal><p className="eyebrow">01 / WHO WE ARE</p></Reveal><Reveal><h2>Tomorrow is something<br/>we build <em>together.</em></h2><div className="mission-columns"><p>International Future Trust Foundation brings a global outlook to a simple idea: people and partnerships belong at the centre of a better future.</p><div><p>Our website is taking shape. This space will share the foundation’s story, its people and the work that connects its vision to everyday lives.</p><Link className="text-link" href="/founders-story/">Discover our story <Arrow/></Link></div></div></Reveal></section>
 <section className="impact wrap"><div className="impact-label"><p className="eyebrow">ACCOUNTABILITY FIRST</p><p>Impact begins<br/>with evidence.</p></div>{impact.items.map(item=><div className="stat" key={item.label}><strong>—</strong><span>{item.label}</span><small>Awaiting verified data</small></div>)}</section>
 <section className="focus section"><div className="wrap"><Reveal className="section-top"><div><p className="eyebrow">02 / OUR FOCUS</p><h2>Ideas with people<br/>at their <em>heart.</em></h2></div><div><p className="section-aside">Four proposed areas for the foundation’s work.<br/>Final programs will follow organizational review.</p><Link className="text-link" href="/programs/">Explore focus areas <Arrow/></Link></div></Reveal><div className="focus-grid">{focusAreas.map((area,i)=><Reveal className={'focus-item focus-'+i} key={area.number}><span className="focus-number">{area.number} / PROPOSED FOCUS</span><div className="focus-symbol" aria-hidden="true">{i===0?<svg viewBox="0 0 100 100"><path d="M50 25Q25 10 10 20v55q20-10 40 5 20-15 40-5V20Q70 10 50 25v55"/></svg>:i===1?<svg viewBox="0 0 100 100"><circle cx="50" cy="30" r="13"/><path d="M20 85V65q30-30 60 0v20M10 40h15M75 40h15"/></svg>:i===2?<svg viewBox="0 0 100 100"><path d="M20 80Q5 20 80 15q10 60-60 65ZM20 80l40-40M20 80v15"/></svg>:<Globe/>}</div><h3>{area.title}</h3><p>{area.text}</p><Link href="/programs/" aria-label={'Explore '+area.title}><Arrow/></Link></Reveal>)}</div></div></section>
