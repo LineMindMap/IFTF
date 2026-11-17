@@ -23,7 +23,7 @@ export default function Home() {
   <Link href="/programs/">Explore programs <Arrow/></Link>
   <Link href="/collaborate/">Propose a collaboration <Arrow/></Link>
   <Link href="/volunteer/">Volunteer <Arrow/></Link>
-  <Link href="/verify/">Verify a letter <Arrow/></Link>
+  <Link href="/verify/">eVerify <Arrow/></Link>
 </nav>
 <section className="mission wrap section" id="about"><Reveal><p className="eyebrow">01 / WHO WE ARE</p></Reveal><Reveal><h2>Tomorrow is something<br/>we build <em>together.</em></h2><div className="mission-columns"><p>International Future Trust Foundation brings a global outlook to a simple idea: people and partnerships belong at the centre of a better future.</p><div><p>Our website is taking shape. This space will share the foundation’s story, its people and the work that connects its vision to everyday lives.</p><Link className="text-link" href="/founders-story/">Discover our story <Arrow/></Link></div></div></Reveal></section>
 <section className="focus section">

@@ -3,7 +3,6 @@ import { aboutMenu, countries, focusAreas, office, routes, titleFor } from '../.
 
 const status: Record<string, string> = {
   login: 'Secure sign-in is planned for a later phase.',
-  verify: 'Letter verification is planned for a later phase.',
   donate: 'Online giving is planned for a later phase.',
 };
 
@@ -71,6 +70,12 @@ export default async function Page({ params }: PageProps) {
             <div><dt>Fax</dt><dd>{office.fax}</dd></div>
             <div><dt>Email</dt><dd><a href={'mailto:' + office.email}>{office.email}</a></dd></div>
           </dl>
+        </>
+      ) : slug === 'verify' ? (
+        <>
+          <p className="inner-lead">Document verification is coming soon.</p>
+          <p>eVerify is planned to scan a document’s QR code or barcode and show its verification status, who requested it, when it was issued, and when it expires.</p>
+          <Link href="/help/#documents" className="text-link">Get help with document verification</Link>
         </>
       ) : (
         <>

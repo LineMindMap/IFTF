@@ -173,3 +173,31 @@ html { scroll-padding-top: 180px; }
   .status-hero { grid-template-columns: 1fr; gap: 8px; padding-bottom: 55px; }
   .status-visual { width: min(78%, 250px); }
 }
+
+header { --utility-height: 42px; top: calc(-1 * var(--utility-height)); }
+.utility { box-sizing: border-box; height: var(--utility-height); padding-block: 0; }
+.utility > div { align-items: center; }
+.footer-address { margin-top: 14px; font-style: normal; color: var(--muted); font-size: 13px; line-height: 1.55; overflow-wrap: anywhere; }
+.footer-address a { display: table; min-height: 28px; text-decoration: underline; text-underline-offset: 3px; }
+.faq-search, .faq-group { margin-top: 32px; max-width: 780px; }
+.faq-search label, .help-dialog label { display: block; font-weight: 700; margin-bottom: 8px; }
+.faq-search input, .help-dialog textarea { width: 100%; border: 1px solid var(--line); background: white; border-radius: 5px; padding: 12px; color: var(--ink); }
+.faq-search input:focus-visible, .help-dialog textarea:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.faq-search p { font-size: 14px; color: var(--muted); }
+.faq-group h2, .help-dialog h2 { font-size: clamp(25px,4vw,36px); }
+.faq-group details { border-bottom: 1px solid var(--line); }
+.faq-group summary { min-height: 48px; padding: 13px 0; cursor: pointer; font-weight: 600; }
+.faq-group summary:focus-visible { outline: 2px solid var(--red); }
+.faq-group details p { margin: 0 0 16px; }
+.help-page { padding-bottom: 90px; }
+.help-launcher { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 20; border-radius: 26px; box-shadow: 0 5px 18px #25272333; }
+.help-dialog { margin: auto; padding: 24px; width: min(480px, calc(100% - 32px)); max-height: calc(100% - 32px); overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); }
+.help-dialog::backdrop { background: #25272388; }
+.help-dialog form:not(.assistant-close) { margin-top: 20px; }
+.help-dialog .button { margin-top: 12px; }
+.assistant-close { display: flex; justify-content: flex-end; }
+@media (max-width: 760px) {
+  header { --utility-height: 48px; }
+  .utility > div { gap: clamp(8px, 3vw, 22px); }
+  .utility a { white-space: nowrap; }
+}

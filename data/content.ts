@@ -18,13 +18,15 @@ export const routes = [...new Set([...aboutMenu.map(item => item.slug), 'program
 export const liveRoutes = ['programs', 'where-we-work', 'contact'];
 export const routeTitles: Record<string, string> = {
   programs: 'What We Do', 'where-we-work': 'Where We Work', 'get-involved': 'Get Involved',
-  verify: 'Verify a Letter', collaborate: 'Propose a Collaboration',
+  verify: 'eVerify', collaborate: 'Propose a Collaboration',
   ...Object.fromEntries(aboutMenu.map(({slug, title}) => [slug, title])),
 };
 export const titleFor = (slug: string) => routeTitles[slug] ?? slug[0].toUpperCase() + slug.slice(1);
 
 // Add future features here when they are deferred, then remove them when shipped.
 export const deferredWork = [
+  { title: 'eVerify document verification', detail: 'Connect QR and barcode scanning to authorized document records, including verification status, issue date and expiry.' },
+  { title: 'AI help assistant', detail: 'Connect the help preview to an assistant that answers from approved IFTF information.' },
   { title: 'Interactive country map', detail: 'The country directory is available. The interactive map is planned.' },
   { title: 'Annual report reader', detail: 'Add reports and a reader when publication files are ready.' },
   { title: 'Newsletter signup', detail: 'Connect a subscription service and add the signup form.' },

@@ -62,7 +62,7 @@ export default function ServiceIndicators() {
           tone={reachable === true ? 'green' : reachable === false ? 'red' : 'yellow'}
           state={reachable === true ? 'Reachable' : reachable === false ? 'Unreachable' : 'Checking'}/>;
       })}
-      <Status label="Letter verification" tone="yellow" state="Planned"/>
+      <Status label="eVerify" tone="yellow" state="Planned"/>
       <Status label="Secure sign-in" tone="yellow" state="Planned"/>
       <Status label="Online giving" tone="yellow" state="Planned"/>
       </ul>

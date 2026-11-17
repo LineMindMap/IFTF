@@ -32,7 +32,7 @@ export default function SiteHeader() {
       }}>
       <div className="utility">
         <span>Bridging Today, Empowering Tomorrow.</span>
-        <div><Link href="/verify/">Verify a letter</Link><Link href="/website-status/">Website Status</Link><Link href="/contact/">Contact</Link><Link href="/login/">Login <Arrow/></Link></div>
+        <div><Link href="/verify/">eVerify</Link><Link href="/website-status/">Website Status</Link><Link href="/help/">Help &amp; FAQ</Link><Link href="/contact/">Contact</Link><Link href="/login/">Login <Arrow/></Link></div>
       </div>
       <div className="mainnav">
         <Link href="/" aria-label="IFTF home" className="brand"><Image src={assetPath('/iftf-logo-transparent.png')} width={1777} height={885} alt="International Future Trust Foundation" priority/></Link>
