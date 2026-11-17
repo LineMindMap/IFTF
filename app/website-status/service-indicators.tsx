@@ -28,8 +28,22 @@ export default function ServiceIndicators() {
     return () => controller.abort();
   }, []);
 
-  return (
-    <ul className="service-list" aria-live="polite">
+  const website = results['/'];
+  const tone = website === true ? 'green' : website === false ? 'red' : 'yellow';
+
+  return <>
+    <div className={'status-hero ' + tone}>
+      <div className="status-beacon" aria-hidden="true"><span>{website === true ? '✓' : website === false ? '!' : '…'}</span></div>
+      <div>
+        <p className="status-kicker">IFTF Website Status</p>
+        <h1 aria-live="polite">{website === true ? 'Website is up' : website === false ? 'Website unreachable' : 'Checking the website'}</h1>
+        <p>Availability from your current connection.</p>
+      </div>
+    </div>
+    <section aria-labelledby="services">
+      <h2 id="services">Service availability</h2>
+      <p>Checks run from your browser when you open this page. They show whether each page responds at that moment.</p>
+      <ul className="service-list" aria-live="polite">
       {checks.map(({label, path}) => {
         const reachable = results[path];
         return <Status key={path} label={label}
@@ -39,6 +53,7 @@ export default function ServiceIndicators() {
       <Status label="Letter verification" tone="yellow" state="Planned"/>
       <Status label="Secure sign-in" tone="yellow" state="Planned"/>
       <Status label="Online giving" tone="yellow" state="Planned"/>
-    </ul>
-  );
+      </ul>
+    </section>
+  </>;
 }

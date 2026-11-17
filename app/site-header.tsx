@@ -45,11 +45,12 @@ export default function SiteHeader() {
             if (!event.currentTarget.contains(event.relatedTarget)) setAboutOpen(false);
           }}>
             <button ref={aboutButton} type="button" aria-expanded={aboutOpen} aria-controls="about-submenu"
-              onClick={() => setAboutOpen(open => !open)}>About <span aria-hidden="true">⌄</span></button>
+              onClick={() => setAboutOpen(open => !open)}>About</button>
             <ul id="about-submenu" hidden={!aboutOpen}>
               {aboutMenu.map(item => <li key={item.slug}>
                 <Link href={item.url ?? '/' + item.slug + '/'} onClick={closeNavigation}>
                   {item.title}{item.external && <><Arrow/><span className="sr-only">{item.url ? ' (external site)' : ' (external site planned)'}</span></>}
+                  {item.slug === 'departments' && <span aria-hidden="true">→</span>}
                 </Link>
               </li>)}
             </ul>

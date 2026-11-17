@@ -9,14 +9,7 @@ export default function WebsiteStatus() {
   const unfinished = routes.filter(slug => !liveRoutes.includes(slug));
   return (
     <main id="main" tabIndex={-1} className="wrap inner-page status-page">
-      <nav className="breadcrumb" aria-label="Breadcrumb"><Link href="/">Home</Link><span aria-hidden="true">/</span><span aria-current="page">Website Status</span></nav>
-      <h1>Website Status</h1>
-      <p className="inner-lead">See what’s reachable and what’s still in development.</p>
-      <section aria-labelledby="services">
-        <h2 id="services">Service availability</h2>
-        <p>Checks run from your browser when you open this page. They show whether each page responds at that moment.</p>
-        <ServiceIndicators />
-      </section>
+      <ServiceIndicators />
       <div className="status-backlog">
         <section aria-labelledby="unfinished">
           <h2 id="unfinished">Pages in development</h2>
