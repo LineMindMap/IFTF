@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
+import { assetPath } from './asset-path';
 import Link from 'next/link';
 import { navigation } from '../data/content';
 
@@ -25,7 +26,7 @@ export default function SiteHeader() {
         <div><Link href="/verify/">Verify a letter</Link><Link href="/contact/">Contact</Link><Link href="/login/">Login <Arrow/></Link></div>
       </div>
       <div className="mainnav">
-        <Link href="/" aria-label="IFTF home" className="brand"><Image src="/iftf-logo.png" width={820} height={409} alt="International Future Trust Foundation" priority/></Link>
+        <Link href="/" aria-label="IFTF home" className="brand"><Image src={assetPath('/iftf-logo.png')} width={820} height={409} alt="International Future Trust Foundation" priority/></Link>
         <button ref={menuButton} className="menutoggle" onClick={() => setMenu(!menu)}
           aria-expanded={menu} aria-controls="main-navigation" aria-label={menu ? 'Close navigation' : 'Open navigation'}>
           {menu ? 'Close' : 'Menu'} <span aria-hidden="true">{menu ? '×' : '☰'}</span>

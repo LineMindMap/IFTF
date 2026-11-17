@@ -6,18 +6,17 @@ English-language Next.js App Router + TypeScript + Tailwind + Framer Motion prev
 
 Node.js 22+ and pnpm: `pnpm install`, then `pnpm dev`. Open http://localhost:3000.
 
-Checks: `pnpm typecheck`, `pnpm lint`, `pnpm build`. Static output is written to `out/` for Sites hosting.
+Checks: `pnpm typecheck`, `pnpm lint`, `pnpm build`. Static output is written to `out/` for GitHub Pages.
 
 ## Content and scope
 
-Shared content is in `data/content.ts`. All impact values are null pending verified data and an as-of date. Photography is illustrative, not evidence of IFTF projects. Program copy is proposed. Inner pages are explicit stubs; no login, verification, payment, newsletter or submission service is active. The global section filters regions but does not claim operating countries. Reports are forthcoming placeholders. Search-engine indexing is disabled for this preview.
-
-Brand red is provisional pending a vector logo/brand guide. Fonts use local Georgia and Arial fallbacks to avoid remote font dependencies. Domain is undecided; internationalftf.org is not configured.
+Shared content is in data/content.ts. IFTF is active in Pakistan and Indonesia, with Education and Community Prosperity as its focus areas. The Yogyakarta contact details are on the Contact page. Photography is illustrative, and program descriptions are draft copy. Login, letter verification, and payments are planned features. Search engine indexing is disabled while the content is under review.
 
 ## Assets
 
 Logo: user supplied. Illustrative photograph: https://images.unsplash.com/photo-1509099836639-18ba1795216d . Replace with approved IFTF photography before launch.
 
-## Hosting
+## GitHub Pages
 
-`.openai/hosting.json` retains the Sites identity. Do not create a replacement Site. The initial static deployment can migrate to server infrastructure when authentication and the CMS are implemented.
+In the GitHub repository, open Settings → Pages and choose GitHub Actions as the publishing source. The workflow publishes pushes to main and can also run manually. It automatically uses the path provided by GitHub Pages so internal links, images and scripts load on project URLs.
+
