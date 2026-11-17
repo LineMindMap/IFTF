@@ -20,3 +20,9 @@ Logo: user supplied. Illustrative photograph: https://images.unsplash.com/photo-
 
 In the GitHub repository, open Settings → Pages and choose GitHub Actions as the publishing source. The workflow publishes pushes to main and can also run manually. It automatically uses the path provided by GitHub Pages so internal links, images and scripts load on project URLs.
 
+
+## Navigation and status
+
+Edit `aboutMenu` in `data/content.ts` to set the Sustainability, President’s Office, and Chairman’s Office URLs. Until a URL is supplied, each item opens its local pending page.
+
+The Website Status page lists unfinished routes automatically. Update `liveRoutes` when a page is ready and add deferred requests to `deferredWork` when recording them. The service indicators check page reachability from the visitor’s browser.

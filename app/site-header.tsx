@@ -3,37 +3,59 @@ import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { assetPath } from './asset-path';
 import Link from 'next/link';
-import { navigation } from '../data/content';
+import { aboutMenu, navigation } from '../data/content';
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
 
 export default function SiteHeader() {
   const [menu, setMenu] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
+  const aboutButton = useRef<HTMLButtonElement>(null);
+  function closeNavigation() {
+    setMenu(false);
+    setAboutOpen(false);
+  }
   return (
     <header className={menu ? 'menu-expanded' : undefined}
       onBlur={event => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setMenu(false);
+        if (!event.currentTarget.contains(event.relatedTarget)) closeNavigation();
       }}
       onKeyDown={event => {
-        if (event.key === 'Escape' && menu) {
+        if (event.key === 'Escape' && aboutOpen) {
+          setAboutOpen(false);
+          aboutButton.current?.focus();
+        } else if (event.key === 'Escape' && menu) {
           setMenu(false);
           menuButton.current?.focus();
         }
       }}>
       <div className="utility">
         <span>Bridging Today, Empowering Tomorrow.</span>
-        <div><Link href="/verify/">Verify a letter</Link><Link href="/contact/">Contact</Link><Link href="/login/">Login <Arrow/></Link></div>
+        <div><Link href="/verify/">Verify a letter</Link><Link href="/website-status/">Website Status</Link><Link href="/contact/">Contact</Link><Link href="/login/">Login <Arrow/></Link></div>
       </div>
       <div className="mainnav">
         <Link href="/" aria-label="IFTF home" className="brand"><Image src={assetPath('/iftf-logo.png')} width={820} height={409} alt="International Future Trust Foundation" priority/></Link>
-        <button ref={menuButton} className="menutoggle" onClick={() => setMenu(!menu)}
+        <button ref={menuButton} className="menutoggle" onClick={() => menu ? closeNavigation() : setMenu(true)}
           aria-expanded={menu} aria-controls="main-navigation" aria-label={menu ? 'Close navigation' : 'Open navigation'}>
           {menu ? 'Close' : 'Menu'} <span aria-hidden="true">{menu ? '×' : '☰'}</span>
         </button>
         <nav id="main-navigation" aria-label="Main navigation" className={menu ? 'open' : undefined}>
-          {navigation.map(([name, slug]) => <Link key={slug} href={'/' + slug + '/'} onClick={() => setMenu(false)}>{name}</Link>)}
-          <Link className="mobile-partner" href="/collaborate/" onClick={() => setMenu(false)}>Partner with us <Arrow/></Link>
+          <div className="about-nav" onBlur={event => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setAboutOpen(false);
+          }}>
+            <button ref={aboutButton} type="button" aria-expanded={aboutOpen} aria-controls="about-submenu"
+              onClick={() => setAboutOpen(open => !open)}>About <span aria-hidden="true">⌄</span></button>
+            <ul id="about-submenu" hidden={!aboutOpen}>
+              {aboutMenu.map(item => <li key={item.slug}>
+                <Link href={item.url ?? '/' + item.slug + '/'} onClick={closeNavigation}>
+                  {item.title}{item.external && <><Arrow/><span className="sr-only">{item.url ? ' (external site)' : ' (external site planned)'}</span></>}
+                </Link>
+              </li>)}
+            </ul>
+          </div>
+          {navigation.filter(([, slug]) => slug !== 'about').map(([name, slug]) => <Link key={slug} href={'/' + slug + '/'} onClick={closeNavigation}>{name}</Link>)}
+          <Link className="mobile-partner" href="/collaborate/" onClick={closeNavigation}>Partner with us <Arrow/></Link>
         </nav>
         <Link className="button navcta" href="/collaborate/">Partner with us <Arrow/></Link>
       </div>

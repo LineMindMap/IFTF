@@ -1,15 +1,5 @@
 import Link from 'next/link';
-import { countries, focusAreas, office, routes } from '../../data/content';
-
-const labels: Record<string, string> = {
-  about: 'About IFTF',
-  programs: 'What We Do',
-  'where-we-work': 'Where We Work',
-  'get-involved': 'Get Involved',
-  'founders-story': 'Founders’ Story',
-  verify: 'Verify a Letter',
-  collaborate: 'Propose a Collaboration',
-};
+import { aboutMenu, countries, focusAreas, office, routes, titleFor } from '../../data/content';
 
 const status: Record<string, string> = {
   login: 'Secure sign-in is planned for a later phase.',
@@ -18,7 +8,6 @@ const status: Record<string, string> = {
 };
 
 type PageProps = { params: Promise<{ slug: string }> };
-const titleFor = (slug: string) => labels[slug] ?? slug[0].toUpperCase() + slug.slice(1);
 
 export function generateStaticParams() {
   return routes.map(slug => ({ slug }));
@@ -85,7 +74,9 @@ export default async function Page({ params }: PageProps) {
         </>
       ) : (
         <>
-          <p className="inner-lead">{status[slug] ?? 'This section is being prepared.'}</p>
+          <p className="inner-lead">{status[slug] ?? (aboutMenu.some(item => item.slug === slug && item.external)
+            ? 'The external website link will appear here when it is available.'
+            : 'This section is being prepared.')}</p>
           <Link href="/" className="text-link">Return to homepage</Link>
         </>
       )}
