@@ -117,30 +117,59 @@ html { scroll-padding-top: 180px; }
 #about-submenu a span[aria-hidden] { color: var(--red); }
 
 .status-hero {
-  --signal: #175b36; --signal-bg: #e7f3e9;
-  display: flex; align-items: center; gap: clamp(20px,5vw,60px);
-  padding: clamp(26px,6vw,72px); border: 1px solid var(--line);
-  background: var(--signal-bg); color: var(--signal);
+  --signal: #74edaa;
+  display: grid; grid-template-columns: minmax(0,1fr) minmax(260px,.8fr);
+  align-items: center; position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(25px,5vw,65px); border: 1px solid #263d35; border-radius: 12px;
+  background: radial-gradient(ellipse at 80% 45%, #153b29, transparent 52%), #0c1b16;
+  color: #d4e5dc;
 }
-.status-hero.yellow { --signal: #654400; --signal-bg: #fff5d9; }
-.status-hero.red { --signal: #9c1725; --signal-bg: #fdebec; }
-.status-hero h1 { color: var(--ink); }
-.status-hero p { margin-top: 8px; }
-.status-hero .status-kicker { margin: 0 0 6px; font-size: 14px; font-weight: 700; }
-.status-beacon { display: grid; place-items: center; flex: 0 0 auto; position: relative; width: clamp(54px,9vw,100px); aspect-ratio: 1; }
-.status-beacon span { display: grid; place-items: center; width: 72%; aspect-ratio: 1; border-radius: 50%; background: var(--signal); color: white; font-size: clamp(22px,4vw,40px); }
-.status-hero.green .status-beacon::before, .status-hero.green .status-beacon::after {
-  content: ''; position: absolute; inset: 12%; border-radius: 50%; border: 1px solid var(--signal); animation: status-ring 1.6s ease-out 3;
+.status-hero.yellow { --signal: #ffd884; }
+.status-hero.red { --signal: #ff9b9c; }
+.status-hero-copy { position: relative; z-index: 2; }
+.status-hero h1 { color: #f6fff9; font-size: clamp(42px,6vw,76px); }
+.status-hero p { margin-top: 12px; }
+.status-hero .status-kicker { margin: 0 0 12px; font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--signal); }
+.status-visual {
+  position: relative; justify-self: center; width: min(100%, 340px); aspect-ratio: 1;
+  display: grid; place-items: center; color: var(--signal);
+  background-image: radial-gradient(circle, #daffe335 1px, transparent 1px);
+  background-size: 15px 15px;
+  mask-image: radial-gradient(ellipse, #000 63%, transparent 84%);
 }
-.status-hero.green .status-beacon::after { animation-delay: .35s; }
-@keyframes status-ring { from { transform: scale(.85); opacity: .7; } to { transform: scale(1.55); opacity: 0; } }
+.status-orbit, .status-scan { position: absolute; border-radius: 50%; }
+.status-orbit { border: 1px solid #a6f3c14d; }
+.status-orbit-outer { inset: 5%; border-style: dashed; }
+.status-orbit-middle { inset: 17%; }
+.status-orbit-inner { inset: 29%; border-style: dotted; }
+.status-orbit i { position: absolute; left: 50%; top: 0; width: 7px; aspect-ratio: 1; border-radius: 50%; background: currentColor; box-shadow: 0 0 14px currentColor; transform: translate(-50%,-50%); }
+.status-orbit-outer i:last-child { top: 100%; }
+.status-orbit-middle i { left: 100%; top: 50%; }
+.status-scan { inset: 6%; background: conic-gradient(from 0deg, transparent 72%, #74edaa24 96%, #74edaa55); opacity: 0; }
+.status-core {
+  display: grid; place-items: center; z-index: 1; width: 28%; aspect-ratio: 1; border-radius: 50%;
+  background: #142e23; border: 1px solid var(--signal); box-shadow: 0 0 34px #74edaa40, inset 0 0 18px #74edaa18;
+  font-size: clamp(32px,5vw,64px); line-height: 1;
+}
+.status-motion {
+  position: absolute; z-index: 2; right: 14px; bottom: 12px; min-height: 44px;
+  padding: 0 12px; border: 1px solid #c0e6ce66; border-radius: 5px;
+  color: #e3f3e9; background: #10241c; font-size: 13px;
+}
+.status-motion:is(:hover,:focus-visible) { border-color: var(--signal); }
+@media (prefers-reduced-motion: no-preference) {
+  .status-hero.green .status-orbit-outer { animation: signal-turn 21s linear infinite; }
+  .status-hero.green .status-orbit-middle { animation: signal-turn 13s linear infinite reverse; }
+  .status-hero.green .status-orbit-inner { animation: signal-turn 8s linear infinite; }
+  .status-hero.green .status-scan { opacity: 1; animation: signal-turn 6s linear infinite; }
+  .status-hero[data-motion="paused"] :is(.status-orbit,.status-scan) { animation-play-state: paused; }
+}
+@media (prefers-reduced-motion: reduce) { .status-motion { display: none; } }
+@keyframes signal-turn { to { transform: rotate(1turn); } }
 @media (max-width: 760px) {
   #about-submenu { width: 100%; transform: none; }
   #about-submenu:not([hidden]) { grid-auto-flow: row; grid-template-columns: 1fr; grid-template-rows: none; }
   .mainnav nav > a::after { right: auto; width: 40px; }
-  .status-hero { align-items: flex-start; padding: 18px; gap: 12px; }
-  .status-hero h1 { font-size: clamp(30px,8vw,48px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .status-beacon::before, .status-beacon::after { animation: none !important; }
+  .status-hero { grid-template-columns: 1fr; gap: 8px; padding-bottom: 55px; }
+  .status-visual { width: min(78%, 250px); }
 }
